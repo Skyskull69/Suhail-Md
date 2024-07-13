@@ -1,49 +1,33 @@
-Work flows:
-
-name: Node.js Cl
+Node.js CI
 
 on:
-
-push:
-
-branches:
-
-main
-
-pull_request:
-
-branches: main
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
+  build:
 
-build:
-runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-strategy:
+    strategy:
+      matrix:
+        node-version: [20.x]
 
-matrix:
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-node-version: [20. x]
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
 
-steps:
+    - name: Install dependencies
+      run: npm install
 
-name: Checkout repository
-
-uses: actions/checkout@v3
-
-name: Set up Node. js
-
-uses: actions/setup-node@v3
-
-with:
-
-node-version: $
-
-{{ matrix. node-version }}
-
-name: Install dependencies
-run: npm install
-
-name: Start application
-
-run: npm start
+    - name: Start application
+      run: npm start
